@@ -1,0 +1,14 @@
+server:
+  port: 8010
+spring:
+  application:
+    # nacos服务名
+    name: app1-service
+  cloud:
+    nacos:
+      server-addr: 192.168.80.128:8848
+      discovery:
+        username: nacos
+        password: nacos
+        # 服务列表 命名空间
+        namespace: public
