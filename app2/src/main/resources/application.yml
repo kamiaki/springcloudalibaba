@@ -6,9 +6,17 @@ spring:
     name: app2-service
   cloud:
     nacos:
-      server-addr: 192.168.80.128:8848
+      server-addr: 192.168.80.128:8838
       discovery:
         username: nacos
         password: nacos
         # 服务列表 命名空间
         namespace: public
+
+#feign
+feign:
+  client:
+    config:
+      default:
+        connectTimeout: 120000 # feign 的超时设置 与hystrix一致
+        readTimeout: 120000 # feign 的超时设置 与hystrix一致

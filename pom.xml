@@ -10,6 +10,7 @@
     <modules>
         <module>app1</module>
         <module>app2</module>
+        <module>common</module>
     </modules>
 
     <packaging>pom</packaging>
@@ -22,7 +23,7 @@
         <java.version>11</java.version>
 
         <spring-boot.version>2.3.2.RELEASE</spring-boot.version>
-        <spring-cloud.version>Hoxton.SR8</spring-cloud.version>
+        <spring-cloud.version>Hoxton.RELEASE</spring-cloud.version>
         <spring-cloud-alibaba.version>2.2.5.RELEASE</spring-cloud-alibaba.version>
     </properties>
 

@@ -6,9 +6,11 @@ spring:
     name: app1-service
   cloud:
     nacos:
-      server-addr: 192.168.80.128:8848
+      server-addr: 192.168.80.128:8838
       discovery:
         username: nacos
         password: nacos
         # 服务列表 命名空间
         namespace: public
+        # 永久实例 false 宕机了也不会删除实例
+        ephemeral: false
