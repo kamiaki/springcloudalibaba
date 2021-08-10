@@ -1,0 +1,120 @@
+# 2021 8 10 springcloud
+
+## idea 构建 阿里云想到初始化方式
+
+![1628566349579](2021 8 10 springcloud 学习.assets/1628566349579.png)
+
+
+
+## 安装 nacos
+
+```shell
+#Clone 项目 https://nacos.io/zh-cn/index.html
+git clone https://github.com/nacos-group/nacos-docker.git
+cd nacos-docker
+
+#单机模式 Derby
+#将文件里面的版本改为 latest
+docker-compose -f example/standalone-derby.yaml up
+
+#其他模式
+# https://nacos.io/zh-cn/docs/quick-start-docker.html
+
+#登录页面
+http://192.168.80.128:8848/nacos/#/login
+
+```
+
+## 参数
+
+保护阈值：你设置0.5 ，健康实例 / 总实例 < 0.5 ,他会把不健康的实例也拿来用。0的话就是不会把不健康的拿来用。
+
+![1628581325081](2021 8 10 springcloud 学习.assets/1628581325081.png)
+
+```yaml
+server:
+  port: 8010
+spring:
+  application:
+    # nacos服务名
+    name: app1-service
+  cloud:
+    nacos:
+      server-addr: 192.168.80.128:8848
+      discovery:
+        username: nacos
+        password: nacos
+        # 服务列表 命名空间
+        namespace: public
+        # 永久实例 false 宕机了也不会删除实例 不是临时实例
+        ephemeral: false
+```
+
+
+
+## nacos集群搭建
+
+```shell
+# 修改example/cluster-hostname.yaml 里面的版本号  latest
+# 此配置是本机集群
+docker-compose -f example/cluster-hostname.yaml up 
+
+# 此配置是跨ip集群
+docker-compose -f example/cluster-ip.yaml up 
+#配置 互相发现ip 在这里
+cat ../env/nacos-ip.env 
+
+
+# 启动nginx
+#docker-compose
+version: "3.1"
+services:
+  nginx_nacos:
+    container_name: "nginx_nacos"
+    image: nginx
+    ports:
+      - 8838:8838
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+    network_mode: "host"
+
+#nginx.conf
+worker_processes  1;
+
+events {
+    worker_connections  1024;
+}
+
+http {
+    include       mime.types;
+    default_type  application/octet-stream;
+    sendfile        on;
+    client_max_body_size 500m;
+    keepalive_timeout  1200;
+
+	#后端地址
+	upstream nacos{
+
+		server 192.168.80.128:8848  weight=1 max_fails=2 fail_timeout=10s;
+		server 192.168.80.128:8849  weight=1 max_fails=2 fail_timeout=10s;
+		server 192.168.80.128:8850  weight=1 max_fails=2 fail_timeout=10s;
+
+	}
+
+
+    server{
+        listen  8838;
+        server_name 192.168.80.128;
+        location / {
+            proxy_pass http://nacos;
+            proxy_set_header Host $host;
+            proxy_set_header X-Real-IP $remote_addr;
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+            proxy_set_header REMOTE-HOST $remote_addr;
+            add_header X-Cache $upstream_cache_status;
+            add_header Cache-Control no-cache;
+        }
+    }
+}
+```
+
