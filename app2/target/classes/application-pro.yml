@@ -1,5 +1,5 @@
 spring:
   profiles:
-    include: commons
+    include: commons, database
 myParameter:
   value1: '我是app 2222222222222222 的, 参数1 pro环境'

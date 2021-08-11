@@ -8,3 +8,5 @@ spring:
       config:
         namespace: dev
         file-extension: yaml
+        # 禁用和启用 配置中心
+        enabled: true

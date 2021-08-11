@@ -160,17 +160,20 @@ nacos配置
 
 ```yaml
 #yaml
+# 配置中心的配置写在这里
 spring:
-  application:
-    name: app1-service
   cloud:
     nacos:
       server-addr: 192.168.80.128:8848
       username: nacos
       password: nacos
       config:
-        file-extension: yaml
         namespace: dev
+        # 扩展名
+        file-extension: yaml
+        # 禁用和启用 配置中心
+        enabled: true
+
 
 #java
 // 测试gitee提交1

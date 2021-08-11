@@ -8,3 +8,4 @@ spring:
       config:
         namespace: dev
         file-extension: yaml
+        enabled: true
