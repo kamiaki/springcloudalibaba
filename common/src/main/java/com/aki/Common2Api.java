@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.Map;
 
-@FeignClient(value = ApiUrlCommon.providerName_api2)
+@FeignClient(value = ApiUrlCommon.providerName_api2, fallbackFactory = BackFall2Api.class)
 public interface Common2Api {
     /**
      * 获取边界和镜头

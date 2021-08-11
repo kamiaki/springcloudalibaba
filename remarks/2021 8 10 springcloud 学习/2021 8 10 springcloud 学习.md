@@ -1,5 +1,17 @@
 # 2021 8 10 springcloud
 
+## 版本一定要对应上
+
+```
+   <spring-boot.version>2.3.2.RELEASE</spring-boot.version>
+        <spring-cloud.version>Hoxton.SR8</spring-cloud.version>
+        <spring-cloud-alibaba.version>2.2.5.RELEASE</spring-cloud-alibaba.version>
+```
+
+
+
+
+
 ## idea 构建 阿里云想到初始化方式
 
 ![1628566349579](2021 8 10 springcloud 学习.assets/1628566349579.png)

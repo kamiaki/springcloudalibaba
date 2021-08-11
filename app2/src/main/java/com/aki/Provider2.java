@@ -13,6 +13,8 @@ public class Provider2 implements Common2Api{
 
     @Override
     public Map testApi2Method(Map params) {
+        double random = Math.random() * 10;
+        if (random >= 5) throw new RuntimeException("降级降级");
         Map map = new HashMap();
         map.put("从调用者传来的参数", params.toString());
         map.put("myParameter.value1", value1);
