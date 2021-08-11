@@ -258,6 +258,77 @@ http://192.168.80.128:8858/#/login
 
 1.qps流控方式
 
+代码方式
+
+```java
+#pom
+    <!--sentinel-->
+        <dependency>
+            <groupId>com.alibaba.csp</groupId>
+            <artifactId>sentinel-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.alibaba.csp</groupId>
+            <artifactId>sentinel-annotation-aspectj</artifactId>
+        </dependency>
+        
+    
+#java  直接定义
+@RestController
+public class ControllerTest {
+    private static final String ruleName = "test1";
+    @Autowired
+    private Common2Api common2Api;
+
+    @RequestMapping("test1")
+    public Map test1(Map params) {
+        Entry entry = null;
+        try {
+            entry = SphU.entry(ruleName);
+            String str = "hello world";
+            System.out.println("=====-==-----==");
+            System.out.println(str);
+        }catch (BlockException e1) {
+        // 限流了
+            System.out.println("block!");
+            Map map2 = new HashMap();
+            map2.put("block", "block");
+            return map2;
+        }catch (Exception ex) {
+            Tracer.traceEntry(ex, entry);
+        }finally {
+            if (entry != null){
+                entry.exit();
+            }
+        }
+
+
+        Map map = new HashMap();
+        map.put("调用者", "APP1");
+        Map returnMap = common2Api.testApi2Method(map);
+        return returnMap;
+    }
+
+    @PostConstruct
+    private static void initFlowRules(){
+        List<FlowRule> rules = new ArrayList<>();
+        //流控
+        FlowRule rule = new FlowRule();
+        rule.setResource(ruleName);
+        rule.setGrade(RuleConstant.FLOW_GRADE_QPS);
+        rule.setCount(1);
+        rules.add(rule);
+        FlowRuleManager.loadRules(rules);
+    }
+}
+
+
+#java 注解
+
+```
+
+
+
 2.并发线程流控方式
 
 
