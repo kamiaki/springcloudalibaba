@@ -1,9 +1,9 @@
 server:
-  port: 8010
+  port: 8020
 spring:
   application:
-    # nacos服务名 dataID
-    name: app1-service
+    # nacos服务名
+    name: app2-service
   cloud:
     nacos:
       server-addr: 192.168.80.128:8848
@@ -12,8 +12,6 @@ spring:
         password: nacos
         # 服务列表 命名空间
         namespace: dev
-        # 永久实例 false 宕机了也不会删除实例
-        ephemeral: false
 
 #feign
 feign:
@@ -22,6 +20,3 @@ feign:
       default:
         connectTimeout: 120000 # feign 的超时设置 与hystrix一致
         readTimeout: 120000 # feign 的超时设置 与hystrix一致
-
-myParameter:
-  value1: '我是app 1111111111111111 的, 参数1'

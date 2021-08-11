@@ -1,0 +1,5 @@
+spring:
+  profiles:
+    include: commons
+myParameter:
+  value1: '我是app 2222222222222222 的, 参数1 dev环境'

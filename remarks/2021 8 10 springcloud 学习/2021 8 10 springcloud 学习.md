@@ -25,7 +25,7 @@ http://192.168.80.128:8848/nacos/#/login
 
 ```
 
-## 参数
+springboot参数
 
 保护阈值：你设置0.5 ，健康实例 / 总实例 < 0.5 ,他会把不健康的实例也拿来用。0的话就是不会把不健康的拿来用。
 
@@ -122,9 +122,15 @@ http {
 
 ## openFeign
 
-### 日志
+日志
 
 ![1628590373122](2021 8 10 springcloud 学习.assets/1628590373122.png)
+
+契约配置
+
+超时配置
+
+自定义拦截
 
 
 
@@ -144,11 +150,16 @@ http {
 
 ![1628652030220](2021 8 10 springcloud 学习.assets/1628652030220.png)
 
-springboot
+
 
 改单一配置
 
+nacos配置
+
+![1628660782663](2021 8 10 springcloud 学习.assets/1628660782663.png)
+
 ```yaml
+#yaml
 spring:
   application:
     name: app1-service
@@ -161,6 +172,7 @@ spring:
         file-extension: yaml
         namespace: dev
 
+#java
 // 测试gitee提交1
 @SpringBootApplication
 // nacos 客户端
@@ -178,3 +190,12 @@ public class App1Application {
 
 
 
+profile配置
+
+nacos配置中心 ，命名为：服务名-环境.扩展名，的方式。不建议这样，应该用命名空间作区分。
+
+![1628660545958](2021 8 10 springcloud 学习.assets/1628660545958.png)
+
+commons文件 要写在里面。
+
+![1628660661689](2021 8 10 springcloud 学习.assets/1628660661689.png)
