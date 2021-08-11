@@ -20,3 +20,6 @@ feign:
       default:
         connectTimeout: 120000 # feign 的超时设置 与hystrix一致
         readTimeout: 120000 # feign 的超时设置 与hystrix一致
+
+myParameter:
+  value1: '我是app 2222222222222222 的, 参数1'

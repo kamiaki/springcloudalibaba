@@ -1,5 +1,6 @@
 package com.aki;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.HashMap;
@@ -7,11 +8,14 @@ import java.util.Map;
 
 @RestController
 public class Provider2 implements Common2Api{
+    @Value("${myParameter.value1}")
+    private String value1;
 
     @Override
     public Map testApi2Method(Map params) {
         Map map = new HashMap();
-        map.put("Common2Api params", params.toString());
+        map.put("从调用者传来的参数", params.toString());
+        map.put("myParameter.value1", value1);
         return map;
     }
 }

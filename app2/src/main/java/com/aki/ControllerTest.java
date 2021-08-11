@@ -15,7 +15,7 @@ public class ControllerTest{
     @RequestMapping("test1")
     public Map test1(Map params) {
         Map map = new HashMap();
-        map.put("name", "app2 调用");
+        map.put("调用者", "APP2");
         Map returnMap = common1Api.testApi1Method(map);
         return returnMap;
     }

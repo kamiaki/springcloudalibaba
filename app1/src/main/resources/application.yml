@@ -14,3 +14,14 @@ spring:
         namespace: public
         # 永久实例 false 宕机了也不会删除实例
         ephemeral: false
+
+#feign
+feign:
+  client:
+    config:
+      default:
+        connectTimeout: 120000 # feign 的超时设置 与hystrix一致
+        readTimeout: 120000 # feign 的超时设置 与hystrix一致
+
+myParameter:
+  value1: '我是app 1111111111111111 的, 参数1'
