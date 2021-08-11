@@ -246,3 +246,55 @@ http://192.168.80.128:8858/#/login
 
 账号密码sentinel
 
+
+
+被调用方 被调用之后出现在界面上
+
+![1628668127332](2021 8 10 springcloud 学习.assets/1628668127332.png)
+
+
+
+流控方式
+
+1.qps流控方式
+
+2.并发线程流控方式
+
+
+
+异常处理
+
+blockexception 统一异常处理
+
+
+
+各种规则
+
+![1628668825106](2021 8 10 springcloud 学习.assets/1628668825106.png)
+
+
+
+springboot
+
+```yaml
+#feign
+feign:
+  sentinel:
+    enabled: true
+    
+    
+#pom
+ <!--sentinel-->
+ <dependency>
+ <groupId>com.alibaba.cloud</groupId>
+ <artifactId>spring-cloud-starter-alibaba-sentinel</artifactId>
+ </dependency>
+ 
+ #java
+ 
+```
+
+
+
+
+

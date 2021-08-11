@@ -20,6 +20,8 @@ spring:
 
 #feign
 feign:
+  sentinel:
+    enabled: true
   client:
     config:
       default:
