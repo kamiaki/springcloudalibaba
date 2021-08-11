@@ -6,7 +6,7 @@ spring:
     name: app2-service
   cloud:
     nacos:
-      server-addr: 192.168.80.128:8838
+      server-addr: 192.168.80.128:8848
       discovery:
         username: nacos
         password: nacos
