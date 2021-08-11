@@ -207,6 +207,16 @@ commons文件 要写在里面。
 
 ![1628661791719](2021 8 10 springcloud 学习.assets/1628661791719.png)
 
+修改默认 dataid
+
+data-id下标越大 优先级越高， refresh是是否刷新
+
+![1628662377527](2021 8 10 springcloud 学习.assets/1628662377527.png)
+
+优先级最大的
+
+![1628662505911](2021 8 10 springcloud 学习.assets/1628662505911.png)
+
 
 
 
