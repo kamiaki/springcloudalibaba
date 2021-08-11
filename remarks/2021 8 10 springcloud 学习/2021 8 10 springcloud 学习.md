@@ -144,5 +144,37 @@ http {
 
 ![1628652030220](2021 8 10 springcloud 学习.assets/1628652030220.png)
 
+springboot
+
+改单一配置
+
+```yaml
+spring:
+  application:
+    name: app1-service
+  cloud:
+    nacos:
+      server-addr: 192.168.80.128:8848
+      username: nacos
+      password: nacos
+      config:
+        file-extension: yaml
+        namespace: dev
+
+// 测试gitee提交1
+@SpringBootApplication
+// nacos 客户端
+@EnableDiscoveryClient
+@EnableFeignClients //feign
+public class App1Application {
+    public static void main(String[] args) {
+        ConfigurableApplicationContext run = SpringApplication.run(App1Application.class, args);
+        String property = run.getEnvironment().getProperty("myParameter.value1");
+        System.out.println("=================");
+        System.out.println(property);
+    }
+}
+```
+
 
 
