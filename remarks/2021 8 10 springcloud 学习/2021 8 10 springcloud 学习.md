@@ -5,7 +5,7 @@
 ```
    <spring-boot.version>2.3.2.RELEASE</spring-boot.version>
         <spring-cloud.version>Hoxton.SR8</spring-cloud.version>
-        <spring-cloud-alibaba.version>2.2.5.RELEASE</spring-cloud-alibaba.version>
+        <spring-cloud-alibaba.version>2.2.3.RELEASE</spring-cloud-alibaba.version>
 ```
 
 
@@ -437,9 +437,13 @@ blockexception 统一异常处理
 
 
 
-springboot
+springboot 整合 openfeign
 
 ```yaml
+#版本
+  <spring-boot.version>2.3.2.RELEASE</spring-boot.version>
+        <spring-cloud.version>Hoxton.SR8</spring-cloud.version>
+        <spring-cloud-alibaba.version>2.2.3.RELEASE</spring-cloud-alibaba.version>
 #feign
 feign:
   sentinel:
@@ -454,10 +458,53 @@ feign:
  </dependency>
  
  #java
- 
+ package com.aki;
+
+import feign.hystrix.FallbackFactory;
+import org.springframework.stereotype.Component;
+
+import java.util.HashMap;
+import java.util.Map;
+
+@Component
+public class BackFall2Api implements FallbackFactory<Common2Api> {
+    @Override
+    public Common2Api create(Throwable throwable) {
+        return new Common2Api() {
+            @Override
+            public Map testApi2Method(Map params) {
+                return new HashMap(){{this.put("降级", "降级");}};
+            }
+        };
+    }
+}
+
+
+package com.aki;
+
+import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+import java.util.Map;
+
+@FeignClient(value = ApiUrlCommon.providerName_api2, fallbackFactory = BackFall2Api.class)
+public interface Common2Api {
+    /**
+     * 获取边界和镜头
+     *
+     * @param params
+     * @return
+     */
+    @RequestMapping(value = ApiUrlCommon.testApi2Method)
+    Map testApi2Method(@RequestBody Map params);
+}
+
 ```
 
 
 
+持久化
 
+用nacos 来做持久化
 
