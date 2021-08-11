@@ -324,7 +324,36 @@ public class ControllerTest {
 
 
 #java 注解
+   // 注解支持的配置Bean
+    @Bean
+    public SentinelResourceAspect sentinelResourceAspect() {
+        return new SentinelResourceAspect();
+    }
+    
+@RequestMapping(value = "test2")
+    @SentinelResource(value = ruleName2, blockHandler = "blockHandlerForTest2")
+    public String test2(){
+        return "我是测试2";
+    }
 
+ @PostConstruct
+    private static void initFlowRules(){
+        List<FlowRule> rules = new ArrayList<>();
+        //流控
+        FlowRule rule = new FlowRule();
+        rule.setResource(ruleName1);
+        rule.setGrade(RuleConstant.FLOW_GRADE_QPS);
+        rule.setCount(1);
+        rules.add(rule);
+
+        FlowRule rule2 = new FlowRule();
+        rule2.setResource(ruleName2);
+        rule2.setGrade(RuleConstant.FLOW_GRADE_QPS);
+        rule2.setCount(1);
+        rules.add(rule2);
+
+        FlowRuleManager.loadRules(rules);
+    }
 ```
 
 
