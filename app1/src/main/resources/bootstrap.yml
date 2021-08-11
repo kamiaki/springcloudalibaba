@@ -1,0 +1,11 @@
+spring:
+  application:
+    name: app1-service
+  cloud:
+    nacos:
+      server-addr: 192.168.80.128:8848
+      username: nacos
+      password: nacos
+      config:
+        file-extension: yaml
+        namespace: dev
