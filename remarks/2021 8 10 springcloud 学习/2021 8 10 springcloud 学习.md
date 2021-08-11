@@ -508,3 +508,63 @@ public interface Common2Api {
 
 用nacos 来做持久化
 
+
+
+## Seata 
+
+```
+at模式 逆向sql
+tcc模式 try confirm Cancel
+```
+
+一：搭建seata-server
+
+   1.下载 seata-server  
+
+​      [https://github.com/seata/seata/tree/1.4.0](https://links.jianshu.com/go?to=https%3A%2F%2Fgithub.com%2Fseata%2Fseata%2Ftree%2F1.4.0)
+
+   2.修改file.confi和registry.conf .  
+
+​                   路径如下
+
+![img](2021 8 10 springcloud 学习.assets/15683428-4c78c1fc1f53ceb2.webp) 
+
+​             2-1.file.conf中的修改内容如下。
+
+![img](2021 8 10 springcloud 学习.assets/15683428-4aa3f9a292dde7bd.webp) 
+
+​              3-1.修改registry 文件
+
+ ![img](2021 8 10 springcloud 学习.assets/15683428-61076e3319ebf826.webp) 
+
+ 
+
+每个表添加  undo log 回滚表，逆向sql
+
+![img](2021 8 10 springcloud 学习.assets/15683428-f36ade00fb822a7a.webp) 
+
+
+
+配置yml
+
+![1628688042007](2021 8 10 springcloud 学习.assets/1628688042007.png)
+
+
+
+java
+
+![1628688056836](2021 8 10 springcloud 学习.assets/1628688056836.png)
+
+
+
+原理
+
+生成全局事务 xid 通过xid 串联起所有事务
+
+## gateway 直接用zuul
+
+## skywalking  性能监控工具
+
+#### 安装elasticsearch与Skywalking后修改配置文件
+
+改jvm参数 连接skywalking
