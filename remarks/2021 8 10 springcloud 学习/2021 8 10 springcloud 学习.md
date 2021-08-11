@@ -221,3 +221,24 @@ data-id下标越大 优先级越高， refresh是是否刷新
 
 
 
+## sentinel
+
+启动
+
+```yaml
+#docker run
+docker run --name sentinel --restart=always -p 8858:8858 -d bladex/sentinel-dashboard 
+
+#docker-compose
+version: "3.1"
+services:
+  sentinel:
+    container_name: "sentinel"
+    image: bladex/sentinel-dashboard
+    restart: always
+    ports:
+      - 8858:8858
+```
+
+ 
+
