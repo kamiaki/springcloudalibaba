@@ -362,6 +362,57 @@ public class ControllerTest {
 
 
 
+降级处理
+
+```java
+ // 测试降级
+    /**
+     * PS：这里有个需要注意的知识点，就是 SphU.entry 方法的第二个参数 EntryType 说的是这次请求的流量类型，共有两种类型：IN 和 OUT 。
+     * IN：是指进入我们系统的入口流量，比如 http 请求或者是其他的 rpc 之类的请求。
+     * OUT：是指我们系统调用其他第三方服务的出口流量。
+     * 入口、出口流量只有在配置了系统规则时才有效。
+     * 设置 Type 为 IN 是为了统计整个系统的流量水平，防止系统被打垮，用以自我保护的一种方式。
+     * @return
+     */
+    @RequestMapping(value = "test3")
+    @SentinelResource(value = degradeRule1, blockHandler = "blockHandlerForTest3", entryType = EntryType.IN)
+    public String test3() {
+        if (true) throw new RuntimeException("降级异常");
+        return "我是测试3";
+    }
+
+    public String blockHandlerForTest3(BlockException ex) {
+        ex.printStackTrace();
+        return "降级了";
+    }
+    
+    
+    //降级规则
+    @PostConstruct
+    public void initDegradeRule() {
+        List<DegradeRule> degradeRules = new ArrayList<>();
+        DegradeRule degradeRule = new DegradeRule();
+        degradeRule.setResource(degradeRule1);
+        // 异常数降级
+        degradeRule.setGrade(RuleConstant.DEGRADE_GRADE_EXCEPTION_COUNT);
+        // 发生异常数
+        degradeRule.setCount(2);
+        // 多长时间内出现异常
+        degradeRule.setStatIntervalMs(60 * 1000);
+        // 时间窗口10s 这个时间内都降级，之后如果第一次就出错直接降级 不会根据条件判断了
+        degradeRule.setTimeWindow(10);
+        // 触发熔断的最少请求数
+        degradeRule.setMinRequestAmount(2);
+        degradeRules.add(degradeRule);
+        DegradeRuleManager.loadRules(degradeRules);
+
+    }
+```
+
+
+
+
+
 异常处理 被限流抛异常 熔断统一处理
 
 blockexception 统一异常处理
