@@ -1,0 +1,10 @@
+# 配置中心的配置写在这里
+spring:
+  cloud:
+    nacos:
+      server-addr: 192.168.80.128:8848
+      username: nacos
+      password: nacos
+      config:
+        namespace: dev
+        file-extension: yaml
