@@ -148,23 +148,25 @@ http {
 
 ## nacos配置中心
 
-1.命名空间，配置环境
+### 配置流程
 
-2.新建配置，group是项目名
+1.定义命名空间，命名空间ID 和 命名空间名都要设置成命名空间名，如dev，描述可以随便写。
 
-3.克隆项目可以克隆不同环境
+2.新建配置，group是项目名，dataid是服务名相同 ，项目启动会先拿到applicationname，在启动bootstarp.yml
 
-4.更多里面可以回滚版本
+3.如果想配置多环境，就克隆项目配置
+
+4.更多按钮，里面可以回滚配置文件的版本
 
 ![1628651526033](2021 8 10 springcloud 学习.assets/1628651526033.png)
 
-开启权限
+### 开启权限  这个文件里可以改开启权限，在nacos容器里改
 
 ![1628652030220](2021 8 10 springcloud 学习.assets/1628652030220.png)
 
 
 
-改单一配置
+### 改一个配置文件的配置
 
 nacos配置
 
@@ -205,13 +207,15 @@ public class App1Application {
 
 
 
-profile配置
+### profile配置----------不推荐
+
+必须写 yaml扩展名
 
 nacos配置中心 ，命名为：服务名-环境.扩展名，的方式。不建议这样，应该用命名空间作区分。
 
 ![1628660545958](2021 8 10 springcloud 学习.assets/1628660545958.png)
 
-commons文件 要写在里面。
+这个是 app2-service-dev.yaml 是这样写的，里面要有commons的引用
 
 ![1628660661689](2021 8 10 springcloud 学习.assets/1628660661689.png)
 
@@ -219,9 +223,42 @@ commons文件 要写在里面。
 
 ![1628661791719](2021 8 10 springcloud 学习.assets/1628661791719.png)
 
-修改默认 dataid
 
-data-id下标越大 优先级越高， refresh是是否刷新
+
+### 修改默认 dataid 自定义 dataid
+
+实际例子 必须写 .yaml
+
+![1630774104306](2021 8 10 springcloud 学习.assets/1630774104306.png)
+
+```
+# 配置中心的配置写在这里 bootstarp.yml
+spring:
+  cloud:
+    nacos:
+      server-addr: 192.168.80.129:8848
+      username: nacos
+      password: nacos
+      config:
+        namespace: dev
+        group: changsha
+        file-extension: yaml
+        # 禁用和启用 配置中心
+        enabled: true
+        shared-configs[0]:
+          data-id: myconfig.yaml
+          refresh: true
+          group: changsha
+
+```
+
+
+
+### 优先级 
+
+文件一定要有扩展名！ 比如 yaml 或 properties
+
+data-id下标越大 优先级越高， refresh是是否刷新 
 
 ![1628662377527](2021 8 10 springcloud 学习.assets/1628662377527.png)
 
