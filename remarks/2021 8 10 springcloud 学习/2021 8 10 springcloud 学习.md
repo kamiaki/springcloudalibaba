@@ -3,9 +3,9 @@
 ## 版本一定要对应上
 
 ```
-   <spring-boot.version>2.3.2.RELEASE</spring-boot.version>
-        <spring-cloud.version>Hoxton.SR8</spring-cloud.version>
-        <spring-cloud-alibaba.version>2.2.3.RELEASE</spring-cloud-alibaba.version>
+<spring-boot.version>2.3.2.RELEASE</spring-boot.version>
+<spring-cloud.version>Hoxton.SR8</spring-cloud.version>
+<spring-cloud-alibaba.version>2.2.3.RELEASE</spring-cloud-alibaba.version>
 ```
 
 
