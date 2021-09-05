@@ -112,7 +112,7 @@ public class ControllerTest {
     }
 
     @PostConstruct
-    private static void initFlowRules() {
+    private void initFlowRules() {
         List<FlowRule> rules = new ArrayList<>();
         //流控
         FlowRule rule = new FlowRule();
