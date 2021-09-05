@@ -20,18 +20,26 @@
 
     <dependencies>
         <!--sentinel-->
-        <dependency>
-            <groupId>com.alibaba.csp</groupId>
-            <artifactId>sentinel-core</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.alibaba.csp</groupId>
-            <artifactId>sentinel-annotation-aspectj</artifactId>
-        </dependency>
 <!--        <dependency>-->
-<!--            <groupId>com.alibaba.cloud</groupId>-->
-<!--            <artifactId>spring-cloud-starter-alibaba-sentinel</artifactId>-->
+<!--            <groupId>com.alibaba.csp</groupId>-->
+<!--            <artifactId>sentinel-core</artifactId>-->
 <!--        </dependency>-->
+<!--        <dependency>-->
+<!--            <groupId>com.alibaba.csp</groupId>-->
+<!--            <artifactId>sentinel-annotation-aspectj</artifactId>-->
+<!--        </dependency>-->
+
+<!--            maven 版本冲突解决方案-->
+<!--        <dependency>-->
+<!--            <groupId>org.hibernate</groupId>-->
+<!--            <artifactId>hibernate-validator</artifactId>-->
+<!--            <version>5.2.4.Final</version>-->
+<!--        </dependency>-->
+        <dependency>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-sentinel</artifactId>
+        </dependency>
+
         <!--config-->
         <dependency>
             <groupId>com.alibaba.cloud</groupId>

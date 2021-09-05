@@ -33,7 +33,7 @@ docker-compose -f example/standalone-derby.yaml up
 # https://nacos.io/zh-cn/docs/quick-start-docker.html
 
 #登录页面
-http://192.168.80.128:8848/nacos/#/login
+http://192.168.80.129:8848/nacos/#/login
 
 ```
 
@@ -52,7 +52,7 @@ spring:
     name: app1-service
   cloud:
     nacos:
-      server-addr: 192.168.80.128:8848
+      server-addr: 192.168.80.129:8848
       discovery:
         username: nacos
         password: nacos
@@ -107,16 +107,16 @@ http {
 	#后端地址
 	upstream nacos{
 
-		server 192.168.80.128:8848  weight=1 max_fails=2 fail_timeout=10s;
-		server 192.168.80.128:8849  weight=1 max_fails=2 fail_timeout=10s;
-		server 192.168.80.128:8850  weight=1 max_fails=2 fail_timeout=10s;
+		server 192.168.80.129:8848  weight=1 max_fails=2 fail_timeout=10s;
+		server 192.168.80.129:8849  weight=1 max_fails=2 fail_timeout=10s;
+		server 192.168.80.129:8850  weight=1 max_fails=2 fail_timeout=10s;
 
 	}
 
 
     server{
         listen  8838;
-        server_name 192.168.80.128;
+        server_name 192.168.80.129;
         location / {
             proxy_pass http://nacos;
             proxy_set_header Host $host;
@@ -178,7 +178,7 @@ nacos配置
 spring:
   cloud:
     nacos:
-      server-addr: 192.168.80.128:8848
+      server-addr: 192.168.80.129:8848
       username: nacos
       password: nacos
       config:
@@ -272,7 +272,7 @@ data-id下标越大 优先级越高， refresh是是否刷新
 
 ## sentinel
 
-启动
+### docker 启动
 
 ```yaml
 #docker run
@@ -291,19 +291,19 @@ services:
 
  访问
 
-http://192.168.80.128:8858/#/login
+http://192.168.80.129:8858/#/login
 
 账号密码sentinel
 
 
 
-被调用方 被调用之后出现在界面上
+### 被调用方 被调用之后出现在界面上
 
 ![1628668127332](2021 8 10 springcloud 学习.assets/1628668127332.png)
 
 
 
-流控方式
+### 流控方式
 
 1.qps流控方式
 
@@ -462,9 +462,9 @@ public class ControllerTest {
 
 
 
-异常处理 被限流抛异常 熔断统一处理
+### 异常处理 被限流抛异常 熔断统一处理
 
-blockexception 统一异常处理
+### blockexception 统一异常处理
 
 
 
@@ -474,7 +474,7 @@ blockexception 统一异常处理
 
 
 
-springboot 整合 openfeign
+### springboot 整合 openfeign 一定注意springcloud版本 SR8
 
 ```yaml
 #版本
@@ -538,6 +538,33 @@ public interface Common2Api {
 }
 
 ```
+
+
+
+### 整合 springcloud
+
+```yaml
+spring:
+  profiles:
+    include: commons, database
+
+  cloud:
+    sentinel:
+      transport:
+        dashboard: 192.168.80.129:8858
+```
+
+### 注解方式
+
+```java
+// 注解支持的配置Bean
+@Bean
+public SentinelResourceAspect sentinelResourceAspect() {
+    return new SentinelResourceAspect();
+}
+```
+
+
 
 
 
