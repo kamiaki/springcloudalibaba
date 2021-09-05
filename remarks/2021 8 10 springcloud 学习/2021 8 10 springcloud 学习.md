@@ -571,6 +571,8 @@ public class SentinelConfig {
 
 ### springboot 整合 openfeign 一定注意springcloud版本 SR8
 
+设置好 fallback之后，就是设置兜底方法，就可以在界面上配置了，要用 @SentinelResource(fallback = "fallback1",fallbackClass = {DetailControllerEEE.class}) 报错接口
+
 ```yaml
 #版本
   <spring-boot.version>2.3.2.RELEASE</spring-boot.version>
