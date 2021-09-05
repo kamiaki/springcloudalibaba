@@ -727,7 +727,95 @@ java
 
 生成全局事务 xid 通过xid 串联起所有事务
 
-## gateway 直接用zuul
+## gateway 
+
+### gateway一般使用
+
+```java
+    <!--sentinel-->
+        <dependency>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-alibaba-sentinel-gateway</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-sentinel</artifactId>
+        </dependency>
+        
+
+	<!--gateway网关的依赖-->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-gateway</artifactId>
+        </dependency>
+        
+           
+            ////yml
+# nacos          
+spring:
+  cloud:
+    nacos:
+      server-addr: 192.168.80.129:8848
+      discovery:
+        username: nacos
+        password: nacos
+        # 服务列表 命名空间
+        namespace: dev
+        # 非临时服务
+        ephemeral: false
+    gateway:
+      discovery:
+        locator:
+          enabled: true  #开启自动代理
+          
+    sentinel:
+      transport:
+        dashboard: 192.168.80.129:8858
+        port: 8858
+          
+      # 超时
+      httpclient:
+        connect-timeout: 6000
+        response-timeout: 60s
+      # 跨域
+      globalcors:
+        corsConfigurations:
+          '[/**]':
+            allowCredentials: true
+            allowedOrigins: "*"
+            allowedHeaders: "*"
+            allowedMethods: "*"
+            maxAge: 3628800
+      routes:
+        - id: consumer-all
+          uri: lb://consumer-all
+          predicates:
+            - Path=/** # 路由的前缀 这里一般只配置一个 */
+
+/// java
+package com.hydf.changsha;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
+
+@SpringBootApplication
+@EnableDiscoveryClient  //可以是其他注册中心
+public class GateWaylApplication {
+    public static void main(String[] args) {
+        SpringApplication.run(GateWaylApplication.class, args);
+    }
+}
+
+```
+
+### 在界面里配置限流
+
+
+
+
+
+
 
 ## skywalking  性能监控工具
 
