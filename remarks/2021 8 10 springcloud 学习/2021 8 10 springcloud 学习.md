@@ -488,6 +488,13 @@ feign:
     
     
 #pom
+<!--            maven 版本冲突解决方案-->
+<dependency>
+	<groupId>org.hibernate</groupId>
+	<artifactId>hibernate-validator</artifactId>
+	<version>5.2.4.Final</version>
+</dependency>
+
  <!--sentinel-->
  <dependency>
  <groupId>com.alibaba.cloud</groupId>
