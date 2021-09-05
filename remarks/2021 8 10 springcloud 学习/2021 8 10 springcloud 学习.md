@@ -371,22 +371,91 @@ public class ControllerTest {
     }
 }
 
+```
 
-#java 注解
-   // 注解支持的配置Bean
+
+
+### 注解
+
+```java
+///////////////////////// java 注解
+   // 注解支持的配置Bean 
     @Bean
     public SentinelResourceAspect sentinelResourceAspect() {
         return new SentinelResourceAspect();
     }
     
-@RequestMapping(value = "test2")
-    @SentinelResource(value = ruleName2, blockHandler = "blockHandlerForTest2")
-    public String test2(){
-        return "我是测试2";
+	//////////////////////////////////////需要 处理的方法
+    /**
+     * 获取数据到报率可用性-图表和表格
+     *
+     * @param params
+     * @return
+     */
+    @AddLog
+    @RequestMapping(value = "detail1/axiosGetDetail1ChartTable")
+    @SentinelResource(value = SentinelConfig.ruleName1, blockHandler = "blockHandlerFor1", fallback = "fallback1",
+    blockHandlerClass = {DetailControllerEEE.class}, fallbackClass = {DetailControllerEEE.class})
+    public ReturnMsg axiosGetDetail1ChartTable(@RequestBody Map params) {
+//        int a = 1/0;
+        Map map = detailApi.axiosGetDetail1ChartTable(params);
+        ReturnMsg returnMsg = new ReturnMsg(EnumMsg.SUCCESS_200);
+        returnMsg.setData(map);
+        return returnMsg;
     }
 
- @PostConstruct
-    private static void initFlowRules(){
+///////////////////   这个是兜底方法
+@Component
+@Slf4j
+public class DetailControllerEEE {
+
+    /**
+     * fallback的方法
+     * 方法如果在同类，必须是public，方法在别的类，必须是static，并且SentinelResource要有参数， blockHandlerClass = {DetailControllerEEE.class}
+     * 方法的参数 和 返回值，要和原方法一直
+     *
+     * @param ex
+     * @return
+     */
+    public static ReturnMsg fallback1(@RequestBody Map params, Throwable ex) {
+        log.error(ex.getMessage());
+        ReturnMsg returnMsg = new ReturnMsg(EnumMsg.FAIL_909);
+        returnMsg.setMsg("出错了");
+        return returnMsg;
+    }
+
+    /**
+     * blockHandler方法
+     * 方法如果在同类，必须是public，方法在别的类，必须是static，并且SentinelResource要有参数，fallbackClass = {DetailControllerEEE.class}
+     * 方法的参数 和 返回值，要和原方法一直
+     *
+     * @param ex
+     * @return
+     */
+    public static ReturnMsg blockHandlerFor1(@RequestBody Map params, BlockException ex) {
+        log.error(ex.getMessage());
+        ReturnMsg returnMsg = new ReturnMsg(EnumMsg.FAIL_909);
+        returnMsg.setMsg("流控了");
+        return returnMsg;
+    }
+}
+
+
+ /////////////////////配置类 配置规则
+@Configuration
+public class SentinelConfig {
+    public static final String ruleName1 = "ruleName1";
+    public static final String ruleName2 = "ruleName2";
+    public static final String degradeRule1 = "degradeRule1";
+
+    // 注解支持的配置Bean
+    @Bean
+    public SentinelResourceAspect sentinelResourceAspect() {
+        return new SentinelResourceAspect();
+    }
+
+    @PostConstruct
+    private static void initFlowRules() {
         List<FlowRule> rules = new ArrayList<>();
         //流控
         FlowRule rule = new FlowRule();
@@ -403,7 +472,33 @@ public class ControllerTest {
 
         FlowRuleManager.loadRules(rules);
     }
+
+    //降级规则
+    @PostConstruct
+    private void initDegradeRule() {
+        List<DegradeRule> degradeRules = new ArrayList<>();
+        DegradeRule degradeRule = new DegradeRule();
+        degradeRule.setResource(degradeRule1);
+        // 异常数降级
+        degradeRule.setGrade(RuleConstant.DEGRADE_GRADE_EXCEPTION_COUNT);
+        // 发生异常数
+        degradeRule.setCount(2);
+        // 多长时间内出现异常
+        degradeRule.setStatIntervalMs(60 * 1000);
+        // 时间窗口10s 这个时间内都降级，之后如果第一次就出错直接降级 不会根据条件判断了
+        degradeRule.setTimeWindow(10);
+        // 触发熔断的最少请求数
+        degradeRule.setMinRequestAmount(2);
+        degradeRules.add(degradeRule);
+        DegradeRuleManager.loadRules(degradeRules);
+    }
+}
+
 ```
+
+
+
+
 
 
 

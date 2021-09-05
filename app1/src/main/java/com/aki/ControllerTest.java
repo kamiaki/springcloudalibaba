@@ -12,6 +12,7 @@ import com.alibaba.csp.sentinel.slots.block.degrade.DegradeRuleManager;
 import com.alibaba.csp.sentinel.slots.block.flow.FlowRule;
 import com.alibaba.csp.sentinel.slots.block.flow.FlowRuleManager;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -58,14 +59,28 @@ public class ControllerTest {
     }
 
     @RequestMapping(value = "test2")
-    @SentinelResource(value = ruleName2, blockHandler = "blockHandlerForTest2")
+    @SentinelResource(value = ruleName2, blockHandler = "blockHandlerForTest2", fallback = "fallback1")
     public String test2() {
         return "我是测试2";
     }
 
+
     /**
-     * 方法 必须在同类中 必须是public 返回值和原方法保持一致
-     * 可以加参数， 可以在别的类中，要写那个类为参数，方法必须为静态
+     * fallback的方法
+     * 方法如果在同类，必须是public，方法在别的类，必须是static，并且SentinelResource要有参数， blockHandlerClass = {DetailControllerEEE.class}
+     * 方法的参数 和 返回值，要和原方法一直 别忘了Throwable
+     *
+     * @param ex
+     * @return
+     */
+    public static String fallback1(@RequestBody Map params, Throwable ex) {
+        return "出错了";
+    }
+
+    /**
+     * blockHandler方法
+     * 方法如果在同类，必须是public，方法在别的类，必须是static，并且SentinelResource要有参数，fallbackClass = {DetailControllerEEE.class}
+     * 方法的参数 和 返回值，要和原方法一直 别忘了BlockException
      *
      * @param ex
      * @return
