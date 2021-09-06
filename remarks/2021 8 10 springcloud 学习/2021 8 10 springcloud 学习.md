@@ -676,6 +676,55 @@ public SentinelResourceAspect sentinelResourceAspect() {
 
 用nacos 来做持久化
 
+![在这里插入图片描述](2021 8 10 springcloud 学习.assets/20201231143703869.png) 
+
+```java
+<dependency>
+    <groupId>com.alibaba.csp</groupId>
+    <artifactId>sentinel-datasource-nacos</artifactId>
+    <version>1.8.0</version>
+</dependency>
+
+spring:
+  cloud:
+    sentinel:
+      datasource:
+        # 名字随意
+        ds:
+          nacos:
+            # nacos的访问地址，，根据上面准备工作中启动的实例配置
+            server-add: 192.168.22.71:8848
+            # nacos中存储规则的groupId
+            groupId: DEFAULT_GROUP
+            # nacos中存储规则的dataId
+            dataId: ${spring.application.name}-rules
+            # 用来定义存储的规则类型
+            rule-type: flow
+            data-type: json
+
+[
+    {
+        "resource": "/test/test",
+        "limitApp": "default",
+        "grade": 1,
+        "count": 5,
+        "strategy": 0,
+        "controlBehavior": 0,
+        "clusterMode": false
+    }
+]
+
+流控配置注解
+resource: 需要限流的接口路径
+limitApp: 流控针对的调用来源，若为 default 则不区分调用来源
+grade: 限流阈值类型（QPS 或并发线程数）；0代表根据并发数量来限流，1代表根据QPS来进行流量控制
+count: 限流阈值
+strategy: 调用关系限流策略
+controlBehavior: 流量控制效果（直接拒绝、Warm Up、匀速排队）
+clusterMode: 是否为集群模式
+到这里为止我们的准备工作都已经做好了，接下来我们可以测试了。测试之前，由于我们添加了很多配置，我们将nacos、sentinel和项目重启一遍，然后准备访问接口
+```
+
 
 
 ## Seata 
