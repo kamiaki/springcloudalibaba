@@ -727,6 +727,30 @@ clusterMode: 是否为集群模式
 
 
 
+## 整合冲突的jar包
+
+```
+ 
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>fastjson</artifactId>
+                <version> 1.2.4</version>
+            </dependency>
+ 
+
+        <dependency>
+            <groupId>io.github.swagger2markup</groupId>
+            <artifactId>swagger2markup</artifactId>
+<version>1.3.3 </version>
+        </dependency>
+```
+
+
+
+
+
+
+
 ## Seata 
 
 ```
