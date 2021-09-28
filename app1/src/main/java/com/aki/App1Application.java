@@ -1,6 +1,7 @@
 package com.aki;
 
 import com.alibaba.csp.sentinel.annotation.aspectj.SentinelResourceAspect;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
@@ -13,8 +14,12 @@ import org.springframework.context.annotation.Bean;
 // nacos 客户端
 @EnableDiscoveryClient
 @EnableFeignClients //feign
+@Slf4j
 public class App1Application {
     public static void main(String[] args) {
+        log.info("测试日志");
+        log.warn("测试日志");
+        log.error("测试日志");
         ConfigurableApplicationContext run = SpringApplication.run(App1Application.class, args);
         String property = run.getEnvironment().getProperty("myParameter.value1");
         System.out.println("=================");
