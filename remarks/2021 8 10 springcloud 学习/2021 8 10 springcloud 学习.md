@@ -33,7 +33,7 @@ docker-compose -f example/standalone-derby.yaml up
 # https://nacos.io/zh-cn/docs/quick-start-docker.html
 
 #登录页面
-http://192.168.80.129:8848/nacos/#/login
+http://192.168.80.128:8848/nacos/#/login
 
 ```
 
@@ -52,7 +52,7 @@ spring:
     name: app1-service
   cloud:
     nacos:
-      server-addr: 192.168.80.129:8848
+      server-addr: 192.168.80.128:8848
       discovery:
         username: nacos
         password: nacos
@@ -107,16 +107,16 @@ http {
 	#后端地址
 	upstream nacos{
 
-		server 192.168.80.129:8848  weight=1 max_fails=2 fail_timeout=10s;
-		server 192.168.80.129:8849  weight=1 max_fails=2 fail_timeout=10s;
-		server 192.168.80.129:8850  weight=1 max_fails=2 fail_timeout=10s;
+		server 192.168.80.128:8848  weight=1 max_fails=2 fail_timeout=10s;
+		server 192.168.80.128:8849  weight=1 max_fails=2 fail_timeout=10s;
+		server 192.168.80.128:8850  weight=1 max_fails=2 fail_timeout=10s;
 
 	}
 
 
     server{
         listen  8838;
-        server_name 192.168.80.129;
+        server_name 192.168.80.128;
         location / {
             proxy_pass http://nacos;
             proxy_set_header Host $host;
@@ -178,7 +178,7 @@ nacos配置
 spring:
   cloud:
     nacos:
-      server-addr: 192.168.80.129:8848
+      server-addr: 192.168.80.128:8848
       username: nacos
       password: nacos
       config:
@@ -236,7 +236,7 @@ nacos配置中心 ，命名为：服务名-环境.扩展名，的方式。不建
 spring:
   cloud:
     nacos:
-      server-addr: 192.168.80.129:8848
+      server-addr: 192.168.80.128:8848
       username: nacos
       password: nacos
       config:
@@ -291,7 +291,7 @@ services:
 
  访问
 
-http://192.168.80.129:8858/#/login
+http://192.168.80.128:8858/#/login
 
 账号密码sentinel
 
@@ -655,7 +655,7 @@ spring:
   cloud:
     sentinel:
       transport:
-        dashboard: 192.168.80.129:8858
+        dashboard: 192.168.80.128:8858
 ```
 
 ### 注解方式
@@ -830,7 +830,7 @@ java
 spring:
   cloud:
     nacos:
-      server-addr: 192.168.80.129:8848
+      server-addr: 192.168.80.128:8848
       discovery:
         username: nacos
         password: nacos
@@ -845,7 +845,7 @@ spring:
           
     sentinel:
       transport:
-        dashboard: 192.168.80.129:8858
+        dashboard: 192.168.80.128:8858
         port: 8858
           
       # 超时
